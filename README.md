@@ -1,14 +1,18 @@
-# Automated NOC Monitoring Tool 
+# Automated NOC Infrastructure Audit Tool
 
-Proyek ini adalah sistem pemantauan infrastruktur jaringan otomatis yang dirancang untuk menggantikan penarikan log server secara manual. Dibangun untuk memastikan *uptime* operasional yang tinggi.
+This containerized Python solution performs scheduled audits on critical NOC servers to replace manual log extraction, ensuring operational high-availability.
 
-##  Aplikasi yang Digunakan
-*   **Python 3:** Logika utama untuk menarik status jaringan dan memproses log error.
-*   **Docker:** Containerisasi arsitektur agar dapat dijalankan di lingkungan server (OS) apa pun tanpa konflik dependensi.
-*   **CSV/Excel Data Extraction:** Ekspor data otomatis untuk keperluan audit dan pelaporan (SIEM).
+### System Architecture & OSI Focus
+The system architecture and testing methods are designed with a strict focus on standard network layers:
 
-##  Masalah yang Diselesaikan
-Di lingkungan NOC tradisional, teknisi harus merefresh log secara manual untuk mendeteksi *downtime*. Skrip ini mengotomatisasi proses tersebut, mendeteksi anomali jaringan, dan langsung mencatatnya ke dalam arsip terstruktur.
+*   **Layer 3 (Network):** Confirms network-level connectivity via automated ICMP Ping checks to specified critical server IPs.
+*   **Layer 7 (Application):** Verifies the application service availability and extracts server error logs via HTTP Requests.
 
-##  Fokus Arsitektur
-Proyek ini mengimplementasikan konsep dasar Layer 7 dan Layer 3 pada OSI Model, memastikan inspeksi jaringan berjalan dengan presisi dan penggunaan memori yang ringan.
+### Pre-requisites
+This tool is containerized using **Docker**, ensuring consistency and zero-dependency issues. You will need Docker installed to execute the audit script.
+
+### How to Run
+To perform an automated audit, execute the following command in your terminal. This command mounts a `logs` directory to save the output CSV report to your host machine.
+
+```bash
+docker run -v "$(pwd)/logs:/app/logs" Automated-NOC-Monitoring:latest
